@@ -10,7 +10,6 @@ import static java.util.Collections.unmodifiableList;
 public class Reponse {
     private final String motSecret;
     private final List<Lettre> resultat = new ArrayList<>();
-    private int position;
 
     /**
      * Constructeur pour initialiser la réponse avec le mot secret.
@@ -38,11 +37,8 @@ public class Reponse {
      */
     public void compare(String essai) {
         char[] caracteres = essai.toCharArray();
-        char carCourant;
         for (int i = 0; i < caracteres.length; i++) {
-            position = i;
-            carCourant = caracteres[i];
-            resultat.add(evaluationCaractere(carCourant));
+            resultat.add(evaluationCaractere(caracteres[i], i));
         }
     }
 
@@ -68,12 +64,12 @@ public class Reponse {
      * Évalue le statut du caractère courant.
      *
      * @param carCourant le caractère courant
+     * @param position la position du caractère
      * @return le statut du caractère
      */
-    private Lettre evaluationCaractere(char carCourant) {
-        if (estPresent(carCourant)) {
-            if (estPlace(carCourant)) {
-                position++;
+    private Lettre evaluationCaractere(char carCourant, int position) {
+        if (motSecret.indexOf(carCourant) != -1) {
+            if (motSecret.charAt(position) == carCourant) {
                 return Lettre.PLACEE;
             } else {
                 return Lettre.NON_PLACEE;
@@ -81,25 +77,5 @@ public class Reponse {
         } else {
             return Lettre.INCORRECTE;
         }
-    }
-
-    /**
-     * Vérifie si le caractère est présent dans le mot secret.
-     *
-     * @param carCourant le caractère courant
-     * @return true si le caractère est présent, false sinon
-     */
-    private boolean estPresent(char carCourant) {
-        return motSecret.contains(String.valueOf(carCourant));
-    }
-
-    /**
-     * Vérifie si le caractère est placé correctement dans le mot secret.
-     *
-     * @param carCourant le caractère courant
-     * @return true si le caractère est placé correctement, false sinon
-     */
-    private boolean estPlace(char carCourant) {
-        return motSecret.charAt(position) == carCourant;
     }
 }

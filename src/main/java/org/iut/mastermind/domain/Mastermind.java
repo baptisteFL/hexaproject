@@ -38,11 +38,10 @@ public class Mastermind {
     public boolean nouvellePartie(Joueur joueur) {
         if (isJeuEnCours(partieRepository.getPartieEnregistree(joueur))) {
             return false;
-        } else {
-            Partie partie = Partie.create(joueur, serviceTirageMot.tirageMotAleatoire());
-            partieRepository.create(partie);
-            return true;
         }
+        Partie partie = Partie.create(joueur, serviceTirageMot.tirageMotAleatoire());
+        partieRepository.create(partie);
+        return true;
     }
 
     /**
